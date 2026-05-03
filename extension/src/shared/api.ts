@@ -1,6 +1,5 @@
 import type { AccountHealthResult } from "@xhc/shared";
-
-const API_BASE_URL = "http://localhost:8787";
+import { API_BASE_URL } from "./config.js";
 
 export async function fetchHealth(handle: string, refresh = false): Promise<AccountHealthResult> {
   const normalized = handle.replace(/^@/, "").trim().toLowerCase();

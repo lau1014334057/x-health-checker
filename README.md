@@ -1,47 +1,111 @@
 # X Health Checker
 
-Monorepo scaffold for the `X Health Checker` MVP.
+X Health Checker is a Chrome extension and backend service for inspecting public account-level health and visibility signals for X accounts.
 
-## Packages
+The extension provides:
+
+- a floating panel on `x.com` and `twitter.com`
+- popup and side panel views
+- X profile handle detection
+- account health checks through a backend API
+- local storage for recent check results
+
+## Repository Structure
 
 - `extension`: Chrome extension frontend
 - `backend`: API server for score and visibility checks
 - `shared`: shared TypeScript contracts
+- `docs`: product and technical notes
 
-## Status
+## Current Status
 
-This repository currently contains a runnable MVP scaffold:
+This repository is prepared for open-source development, but it is not ready for public store release until you configure a production HTTPS backend.
 
-- extension entry points
-- X profile detection logic
-- popup and side panel UI shell
-- backend API routes
-- mock score and visibility services
-- extension build output
+The development extension currently calls:
 
-## Local run
+```text
+http://localhost:8787
+```
 
-1. Install dependencies:
-   `npm install --ignore-scripts`
+Before publishing to Chrome Web Store, update [extension/src/shared/config.ts](extension/src/shared/config.ts) and remove local-only host permissions from [extension/manifest.json](extension/manifest.json).
 
-2. Build shared types, backend, and extension:
-   `npm run build:shared`
-   `npm run build:backend`
-   `npm run build:extension`
+## Requirements
 
-3. Start the backend:
-   `npm --workspace backend run start`
+- Node.js 20+
+- npm
+- Chrome or another Chromium-based browser for local extension testing
 
-4. Load the extension into Chrome:
-   Open `chrome://extensions`
-   Enable `Developer mode`
-   Click `Load unpacked`
-   Select:
-   `C:\Users\Administrator\Documents\Codex\2026-05-03\new-chat-2\extension\dist`
+## Local Development
 
-## Next steps
+Install dependencies:
 
-1. replace mock services with real providers
-2. add manual lookup in the popup
-3. improve side panel detail rendering
-4. add cache freshness and retry states
+```bash
+npm install --ignore-scripts
+```
+
+Build all packages:
+
+```bash
+npm run build
+```
+
+Start the backend:
+
+```bash
+npm --workspace backend run start
+```
+
+Build the extension:
+
+```bash
+npm run build:extension
+```
+
+Load the extension locally:
+
+1. Open `chrome://extensions`
+2. Enable `Developer mode`
+3. Click `Load unpacked`
+4. Select `extension/dist`
+5. Open or refresh `https://x.com`
+
+## Configuration
+
+The extension API base URL is defined in:
+
+```text
+extension/src/shared/config.ts
+```
+
+For production, set it to your deployed HTTPS backend, for example:
+
+```ts
+export const API_BASE_URL = "https://api.example.com";
+```
+
+Then update `extension/manifest.json` host permissions to include that API host and remove local development permissions.
+
+Backend environment variables are documented in [.env.example](.env.example).
+
+## Checks
+
+```bash
+npm run typecheck
+npm run build
+```
+
+## Publishing
+
+See [CHROME_STORE.md](CHROME_STORE.md) for a Chrome Web Store checklist.
+
+## Privacy
+
+See [PRIVACY.md](PRIVACY.md).
+
+## Security
+
+See [SECURITY.md](SECURITY.md).
+
+## License
+
+MIT. See [LICENSE](LICENSE).
