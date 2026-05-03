@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>X 账号快查</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="panel">
+      <div class="eyebrow">快速入口</div>
+      <h1>X 账号快查</h1>
+      <p id="context">正在识别当前页面账号...</p>
+
+      <section class="card">
+        <label class="field">
+          <span>账号用户名</span>
+          <input id="handle-input" type="text" placeholder="@username" autocomplete="off" />
+        </label>
+        <div class="actions">
+          <button id="run-check">立即检测</button>
+          <button id="open-panel" class="secondary">打开完整报告</button>
+        </div>
+      </section>
+
+      <section class="card result empty" id="result">
+        <div class="placeholder-title">这里会显示快速结果</div>
+        <p class="placeholder-copy">适合快速查看分数和状态，更多解释请打开右侧完整面板。</p>
+      </section>
+    </main>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>
