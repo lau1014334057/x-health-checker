@@ -68,18 +68,9 @@ function getStatusDescription(name: string, check?: VisibilityCheck): string {
 }
 
 function getSourceLabel(source?: string): string {
-  if (source === "hisubway_shadowban_v1") {
-    return "外部可见性检测服务";
-  }
-
-  if (source === "tweethunter_tweepcred_v1") {
-    return "TweepCred 实时评分接口";
-  }
-
-  if (source === "mock_scoring_v1") {
-    return "当前为演示评分模型";
-  }
-
+  if (source === "hisubway_shadowban_v1") return "外部可见性检测服务";
+  if (source === "tweethunter_tweepcred_v1") return "TweepCred 实时评分接口";
+  if (source === "mock_scoring_v1") return "当前为演示评分模型";
   return source ?? "未知来源";
 }
 
@@ -163,10 +154,39 @@ function getFactorBlueprint() {
   ];
 }
 
+function renderFactorDropdown(): string {
+  const factors = getFactorBlueprint();
+
+  return `
+    <details class="factor-dropdown">
+      <summary>评分构成</summary>
+      <div class="factor-popover">
+        <div class="factor-list">
+          ${factors
+            .map(
+              (item) => `
+                <div class="factor-item">
+                  <div class="factor-head">
+                    <h3 class="factor-name">${item.name}</h3>
+                    <span class="factor-points">${item.points}</span>
+                  </div>
+                  <p class="factor-desc">${item.desc}</p>
+                </div>
+              `
+            )
+            .join("")}
+        </div>
+        <p class="factor-note">
+          当前总分与 TweepCred 实时结果保持一致。这里展示的是评分结构与影响方向，
+          用于帮助理解算法关注点，不代表 TweepCred 公开返回的逐项明细分。
+        </p>
+      </div>
+    </details>
+  `;
+}
+
 function formatTime(iso?: string): string {
-  if (!iso) {
-    return "暂无";
-  }
+  if (!iso) return "暂无";
 
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) {
@@ -201,39 +221,6 @@ async function getActiveContext(): Promise<CurrentContext | null> {
   return context;
 }
 
-function renderFactorSection() {
-  const factorBlueprint = getFactorBlueprint();
-  const existing = document.querySelector("#factor-section");
-  existing?.remove();
-
-  const markup = `
-    <section class="card" id="factor-section">
-      <h2 class="section-title">评分构成</h2>
-      <div class="factor-list">
-        ${factorBlueprint
-          .map(
-            (item) => `
-              <div class="factor-item">
-                <div class="factor-head">
-                  <h3 class="factor-name">${item.name}</h3>
-                  <span class="factor-points">${item.points}</span>
-                </div>
-                <p class="factor-desc">${item.desc}</p>
-              </div>
-            `
-          )
-          .join("")}
-      </div>
-      <div class="note-box">
-        当前总分与 TweepCred 实时结果保持一致。这里展示的是评分结构与影响方向，用于帮助理解算法关注点；
-        不代表 TweepCred 公开返回的逐项明细分，也不直接预测单条推文的最终浏览量。
-      </div>
-    </section>
-  `;
-
-  visibilityEl.insertAdjacentHTML("beforebegin", markup);
-}
-
 function renderSummary(context: CurrentContext | null, result: AccountHealthResult | null): void {
   subtitleEl.textContent = context?.handle
     ? `当前识别账号：@${context.handle}`
@@ -241,9 +228,11 @@ function renderSummary(context: CurrentContext | null, result: AccountHealthResu
   manualHandleEl.value = context?.handle ?? manualHandleEl.value;
 
   if (!result) {
-    summaryEl.textContent = "这个账号暂时还没有检测结果。";
-    visibilityEl.textContent = "运行一次检测后，这里会展示可见性判断、来源和说明。";
-    document.querySelector("#factor-section")?.remove();
+    summaryEl.innerHTML = `<p class="empty-copy">这个账号暂时还没有检测结果。</p>`;
+    visibilityEl.innerHTML = `
+      <h2 class="section-title">可见性检测</h2>
+      <p class="empty-copy">运行一次检测后，这里会展示可见性判断、来源和说明。</p>
+    `;
     return;
   }
 
@@ -260,7 +249,10 @@ function renderSummary(context: CurrentContext | null, result: AccountHealthResu
         <h2 class="summary-title">@${result.handle}</h2>
         <span class="health-badge ${grade}">${getScoreLabel(grade)}</span>
       </div>
-      <p class="score-line">账号层分发信号评分：<span class="score-strong">${scoreValue}</span></p>
+      <div class="score-row">
+        <p class="score-line">账号层分发信号评分</p>
+        <span class="score-strong">${scoreValue}</span>
+      </div>
       <div class="distribution-box">
         <p class="distribution-title">当前账号层分发倾向</p>
         <p class="distribution-value">${localizedDistributionEstimate}</p>
@@ -269,6 +261,7 @@ function renderSummary(context: CurrentContext | null, result: AccountHealthResu
         <span class="threshold-chip ${threshold.chipClass}">${threshold.chipLabel}</span>
         <span class="threshold-copy">${threshold.copy}</span>
       </div>
+      ${renderFactorDropdown()}
       <ul class="hint-list">
         ${localizedRecommendations.map((item) => `<li>${item}</li>`).join("")}
       </ul>
@@ -327,8 +320,6 @@ function renderSummary(context: CurrentContext | null, result: AccountHealthResu
       两者都更适合作为账号层参考信号，而不是单条内容结果的绝对预测。
     </div>
   `;
-
-  renderFactorSection();
 }
 
 async function refreshView(): Promise<void> {
@@ -348,9 +339,11 @@ manualRunButton.addEventListener("click", async () => {
     return;
   }
 
-  summaryEl.textContent = `正在检测 @${handle} 的账号健康度...`;
-  visibilityEl.textContent = "正在获取可见性检测结果...";
-  document.querySelector("#factor-section")?.remove();
+  summaryEl.innerHTML = `<p class="empty-copy">正在检测 @${handle} 的账号健康度...</p>`;
+  visibilityEl.innerHTML = `
+    <h2 class="section-title">可见性检测</h2>
+    <p class="empty-copy">正在获取可见性检测结果...</p>
+  `;
 
   const result = await fetchHealth(handle, true);
   await saveHealthResult(result);

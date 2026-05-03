@@ -8,23 +8,36 @@
   </head>
   <body>
     <main class="layout">
-      <header>
+      <header class="page-header">
         <div class="eyebrow">账号诊断</div>
         <h1>X 账号健康检查</h1>
         <p id="subtitle">正在等待页面账号信息。</p>
       </header>
-      <section class="card actions">
-        <label class="field">
-          <span>手动查询</span>
-          <input id="manual-handle" type="text" placeholder="@username" autocomplete="off" />
-        </label>
-        <button id="manual-run">开始检测</button>
+
+      <section class="card score-card" id="score-section">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">账号评分检测</h2>
+            <p class="section-copy">输入账号后查看分发信号、健康状态和优化建议。</p>
+          </div>
+        </div>
+
+        <div class="query-row">
+          <label class="field">
+            <span>手动查询</span>
+            <input id="manual-handle" type="text" placeholder="@username" autocomplete="off" />
+          </label>
+          <button id="manual-run">开始检测</button>
+        </div>
+
+        <div id="summary" class="summary-content">
+          运行一次检测后，这里会显示账号的健康评分与建议。
+        </div>
       </section>
-      <section class="card" id="summary">
-        运行一次检测后，这里会显示账号的健康评分与建议。
-      </section>
+
       <section class="card" id="visibility">
-        可见性检测结果会显示在这里。
+        <h2 class="section-title">可见性检测</h2>
+        <p class="empty-copy">可见性检测结果会显示在这里。</p>
       </section>
     </main>
     <script type="module" src="./index.js"></script>
