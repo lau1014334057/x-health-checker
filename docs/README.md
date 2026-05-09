@@ -4,23 +4,26 @@ This folder contains the implementation-ready documentation set for the `X Healt
 
 ## Documents
 
-1. [Product Overview](C:/Users/Administrator/Documents/Codex/2026-05-03/new-chat-2/docs/product-overview.md)
+1. [Product Overview](product-overview.md)
    Defines the product position, users, scope, MVP, and release boundaries.
 
-2. [Technical Design](C:/Users/Administrator/Documents/Codex/2026-05-03/new-chat-2/docs/technical-design.md)
+2. [Technical Design](technical-design.md)
    Describes the Chrome extension architecture, backend responsibilities, runtime flows, and implementation choices.
 
-3. [API Specification](C:/Users/Administrator/Documents/Codex/2026-05-03/new-chat-2/docs/api-spec.md)
+3. [API Specification](api-spec.md)
    Defines the backend endpoints, request and response contracts, error model, and caching expectations.
 
-4. [Data Model](C:/Users/Administrator/Documents/Codex/2026-05-03/new-chat-2/docs/data-model.md)
+4. [Data Model](data-model.md)
    Documents storage entities for local and cloud-backed modes, including extension storage keys.
 
-5. [Development Plan](C:/Users/Administrator/Documents/Codex/2026-05-03/new-chat-2/docs/development-plan.md)
+5. [Development Plan](development-plan.md)
    Breaks down delivery into milestones, tasks, dependencies, estimates, and ownership suggestions.
 
-6. [Acceptance and QA](C:/Users/Administrator/Documents/Codex/2026-05-03/new-chat-2/docs/acceptance-and-qa.md)
+6. [Acceptance and QA](acceptance-and-qa.md)
    Defines acceptance criteria, test cases, edge cases, release checklist, and monitoring.
+
+7. [Troubleshooting](troubleshooting.md)
+   Documents known local development and Chrome extension loading errors.
 
 ## Recommended Build Order
 

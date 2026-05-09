@@ -126,6 +126,14 @@ Chrome Web Store 发布前检查清单见 [CHROME_STORE.md](CHROME_STORE.md)。
 - 隐私说明：[PRIVACY.md](PRIVACY.md)
 - 安全说明：[SECURITY.md](SECURITY.md)
 
+## 故障排查
+
+本地加载扩展时的已知错误记录在 [docs/troubleshooting.md](docs/troubleshooting.md)，包括 Chrome content script 报错：
+
+```text
+Uncaught SyntaxError: Unexpected token 'export'
+```
+
 ## 开源协议
 
 MIT License. See [LICENSE](LICENSE).
@@ -250,6 +258,14 @@ See [PRIVACY.md](PRIVACY.md).
 ## Security
 
 See [SECURITY.md](SECURITY.md).
+
+## Troubleshooting
+
+Known local extension loading errors are documented in [docs/troubleshooting.md](docs/troubleshooting.md), including the Chrome content script error:
+
+```text
+Uncaught SyntaxError: Unexpected token 'export'
+```
 
 ## License
 
