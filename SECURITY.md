@@ -6,7 +6,7 @@ Security fixes are handled on the default branch until the project starts publis
 
 ## Reporting a Vulnerability
 
-Before publishing, replace this section with your security contact email.
+Please report security issues through GitHub Security Advisories if enabled for this repository. If private vulnerability reporting is not enabled, open a minimal public issue that asks the maintainer to provide a private contact channel, without including exploit details.
 
 Please include:
 

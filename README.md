@@ -2,6 +2,8 @@
 
 X Health Checker is a Chrome extension and backend service for inspecting public account-level health and visibility signals for X accounts.
 
+This is an unofficial project and is not affiliated with, endorsed by, or sponsored by X Corp. Results are estimates based on public and third-party signals, not an official account status determination.
+
 The extension provides:
 
 - a floating panel on `x.com` and `twitter.com`
@@ -9,6 +11,15 @@ The extension provides:
 - X profile handle detection
 - account health checks through a backend API
 - local storage for recent check results
+
+## Data Sources
+
+The backend currently uses third-party public endpoints for:
+
+- distribution health scoring
+- visibility and restriction checks
+
+These upstream services can change, rate-limit, or become unavailable without notice. Treat check results as directional diagnostics and avoid presenting them as guaranteed enforcement or reach status.
 
 ## Repository Structure
 
